@@ -1,5 +1,9 @@
 
 # coding: utf-8
+
+# In[3]:
+
+
 #!/bin/env python
 # Created on March 25, 2020
 #  by Keith Cherkauer
@@ -90,11 +94,14 @@ def CalcRBindex(Qvalues):
        routine returns the RBindex value for the given data array."""
     Qvalues=Qvalues.dropna()
     
+    #calculating differences    
+    diff_calc = Qvalues.diff()
+    diff_calc = diff_calc.dropna()
+
     #calculating sum of abs differences
-    abs_diff_sum = 0
-    for i in range(len(Qvalues)-1):
-        abs_diff_sum = abs_diff_sum + abs(Qvalues[i]-Qvalues[i+1])
-        
+    abs_diff = abs(diff_calc)
+    abs_diff_sum = abs_diff.sum()
+       
     RBindex = (abs_diff_sum/Qvalues.sum())
     
     return ( RBindex )
@@ -166,13 +173,13 @@ def GetMonthlyStatistics(DataDF):
     of monthly values for each year."""
     
     #column names of the dataframe (MoDataDF)
-    colnames=['site_no','Mean Flow','Peak Flow','Tqmean','R-B Index']
+    colnames=['site_no','Mean Flow','Coeff Var','Tqmean','R-B Index']
     
     #creating a dictionary to store each column in the data frame
     dic = {
         'site_no': DataDF.resample('MS').mean()['site_no'],
         'Mean Flow': DataDF['Discharge'].resample('MS').mean(),
-        'Peak Flow': DataDF['Discharge'].resample('MS').max(),
+        'Coeff Var': (DataDF['Discharge'].resample('MS').std()/DataDF['Discharge'].resample('MS').mean())*100,
         'Tqmean': DataDF['Discharge'].resample("MS").apply(CalcTqmean), #from custom function defined above
         'R-B Index':  DataDF['Discharge'].resample("MS").apply(CalcRBindex),
     }
@@ -263,7 +270,7 @@ if __name__ == '__main__':
     Mo.loc[(Mo.site_no == 3331500),'Station'] = 'Tippecanoe'
     Mo.to_csv('Monthly_Metrics.csv', sep=',',index=True)
 
-    #saving average annual and monthly data to txt file
+    #saving average annual and monthly data to csv file
     AA = pd.concat([pd.Series('Tippecanoe',index=['Station']).append(AnnualAverages['Tippe']),pd.Series('Wildcat',index=['Station']).append(AnnualAverages['Wildcat'])])
     AA.to_csv('Average_Annual_Metrics.txt', sep='\t',index=True)
 
