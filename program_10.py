@@ -252,23 +252,23 @@ if __name__ == '__main__':
         
         print("-"*50, "\n\nSummary of monthly metrics...\n\n", MoDataDF[file].describe(), "\n\nAnnual Monthly Averages...\n\n", MonthlyAverages[file])
 
-#saving annual and monthly data to csv file
-WY = pd.concat([WYDataDF['Wildcat'],WYDataDF['Tippe']])
-WY.loc[(WY.site_no == 3335000),'Station'] = 'Wildcat'
-WY.loc[(WY.site_no == 3331500),'Station'] = 'Tippecanoe'
-WY.to_csv('Annual_Metrics.csv', sep=',',index=True)
+    #saving annual and monthly data to csv file
+    WY = pd.concat([WYDataDF['Wildcat'],WYDataDF['Tippe']])
+    WY.loc[(WY.site_no == 3335000),'Station'] = 'Wildcat'
+    WY.loc[(WY.site_no == 3331500),'Station'] = 'Tippecanoe'
+    WY.to_csv('Annual_Metrics.csv', sep=',',index=True)
 
-Mo = pd.concat([MoDataDF['Wildcat'],MoDataDF['Tippe']])
-Mo.loc[(Mo.site_no == 3335000),'Station'] = 'Wildcat'
-Mo.loc[(Mo.site_no == 3331500),'Station'] = 'Tippecanoe'
-Mo.to_csv('Monthly_Metrics.csv', sep=',',index=True)
+    Mo = pd.concat([MoDataDF['Wildcat'],MoDataDF['Tippe']])
+    Mo.loc[(Mo.site_no == 3335000),'Station'] = 'Wildcat'
+    Mo.loc[(Mo.site_no == 3331500),'Station'] = 'Tippecanoe'
+    Mo.to_csv('Monthly_Metrics.csv', sep=',',index=True)
 
-#saving average annual and monthly data to txt file
-AA = pd.concat([pd.Series('Tippecanoe',index=['Station']).append(AnnualAverages['Tippe']),pd.Series('Wildcat',index=['Station']).append(AnnualAverages['Wildcat'])])
-AA.to_csv('Average_Annual_Metrics.txt', sep='\t',index=True)
+    #saving average annual and monthly data to txt file
+    AA = pd.concat([pd.Series('Tippecanoe',index=['Station']).append(AnnualAverages['Tippe']),pd.Series('Wildcat',index=['Station']).append(AnnualAverages['Wildcat'])])
+    AA.to_csv('Average_Annual_Metrics.txt', sep='\t',index=True)
 
-MA = pd.concat([MonthlyAverages['Tippe'],MonthlyAverages['Wildcat']])
-MA.loc[(MA.site_no == 3335000),'Station'] = 'Wildcat'
-MA.loc[(MA.site_no == 3331500),'Station'] = 'Tippecanoe'
-MA.to_csv('Average_Monthly_Metrics.txt', sep='\t',index=True)
+    MA = pd.concat([MonthlyAverages['Tippe'],MonthlyAverages['Wildcat']])
+    MA.loc[(MA.site_no == 3335000),'Station'] = 'Wildcat'
+    MA.loc[(MA.site_no == 3331500),'Station'] = 'Tippecanoe'
+    MA.to_csv('Average_Monthly_Metrics.txt', sep='\t',index=True)
 
